@@ -6,7 +6,6 @@ export async function GET(req: NextRequest) {
   const q = searchParams.get('q') || ''
   if (!q) return NextResponse.json([])
 
-  // Buscar hasta 5 productos
-  const products = await searchProducts(q, '')
+  const { products } = await searchProducts(q, '')
   return NextResponse.json(products.slice(0, 5))
 } 

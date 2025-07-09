@@ -11,16 +11,21 @@ const client = new Typesense.Client({
   connectionTimeoutSeconds: 2
 })
 
-export async function searchProducts(query: string = '', category: string = ''): Promise<Product[]> {
+export async function searchProducts(query: string = '', category: string = '', page: number = 1, perPage: number = 20): Promise<{ products: Product[], total: number }> {
   try {
     const searchParameters: any = {
       q: query || '*',
       query_by: 'name,description,tags',
-      sort_by: '_text_match:desc,rating:desc'
+      sort_by: '_text_match:desc,rating:desc',
+      per_page: perPage,
+      page: page
     }
 
     if (category && category !== 'all') {
       searchParameters.filter_by = `category:=${category}`
+      console.log(`🔍 Buscando productos de categoría: ${category}`)
+    } else {
+      console.log('🔍 Buscando todos los productos')
     }
 
     const searchResults = await client
@@ -28,10 +33,23 @@ export async function searchProducts(query: string = '', category: string = ''):
       .documents()
       .search(searchParameters)
 
-    return searchResults.hits?.map(hit => hit.document as Product) || []
+    const products = searchResults.hits?.map(hit => hit.document as Product) || []
+    const total = searchResults.found || 0
+    console.log(`✅ Encontrados ${products.length} productos (total: ${total})`)
+    
+    // Mostrar algunos ejemplos para debug
+    if (products.length > 0) {
+      console.log('📄 Ejemplos de productos:')
+      products.slice(0, 3).forEach((product, index) => {
+        console.log(`   ${index + 1}. ${product.name} (${product.category})`)
+      })
+    }
+
+    return { products, total }
   } catch (error) {
     console.error('Error searching products:', error)
-    return getMockProducts(query, category)
+    const mock = getMockProducts(query, category)
+    return { products: mock, total: mock.length }
   }
 }
 

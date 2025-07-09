@@ -32,7 +32,6 @@ export default function SearchBar() {
     router.push(`/?${params.toString()}`)
   }, 300)
 
-  // Buscar preview en tiempo real
   useEffect(() => {
     if (query.trim().length === 0) {
       setPreview([])
@@ -62,8 +61,7 @@ export default function SearchBar() {
     params.delete("q")
     router.push(`/?${params.toString()}`)
   }
-
-  // Cerrar preview al hacer click fuera
+  
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (!inputRef.current) return

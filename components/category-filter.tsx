@@ -2,20 +2,38 @@
 
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
 
-const categories = [
-  { id: "all", name: "Todos", count: 0 },
-  { id: "electronics", name: "Electrónicos", count: 12 },
-  { id: "clothing", name: "Ropa", count: 8 },
-  { id: "books", name: "Libros", count: 15 },
-  { id: "home", name: "Hogar", count: 6 },
-  { id: "sports", name: "Deportes", count: 9 },
-]
+interface Category {
+  id: string
+  name: string
+  count: number
+}
 
 export default function CategoryFilter() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const currentCategory = searchParams.get("category") || "all"
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories')
+        if (response.ok) {
+          const data = await response.json()
+          setCategories(data)
+        }
+      } catch (error) {
+        console.error('Error cargando categorías:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCategories()
+  }, [])
 
   const handleCategoryChange = (categoryId: string) => {
     const params = new URLSearchParams(searchParams)
@@ -25,6 +43,16 @@ export default function CategoryFilter() {
       params.set("category", categoryId)
     }
     router.push(`/?${params.toString()}`)
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-wrap gap-2">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <div key={i} className="h-10 w-24 bg-gray-200 rounded-full animate-pulse" />
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -38,7 +66,9 @@ export default function CategoryFilter() {
         >
           {category.name}
           {category.count > 0 && (
-            <span className="ml-2 bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs">{category.count}</span>
+            <span className="ml-2 bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs">
+              {category.count.toLocaleString()}
+            </span>
           )}
         </Button>
       ))}

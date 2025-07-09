@@ -12,11 +12,3 @@ export interface Product {
   stock: number
   tags: string[]
 }
-
-export interface TypesenseSearchResult {
-  found: number
-  hits: Array<{
-    document: Product
-    highlight?: Record<string, any>
-  }>
-}

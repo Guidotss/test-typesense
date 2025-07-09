@@ -1,6 +1,5 @@
 const Typesense = require('typesense')
-const fs = require('fs')
-const path = require('path')
+const { faker } = require('@faker-js/faker')
 
 const typesenseConfig = {
   nodes: [
@@ -50,8 +49,7 @@ async function initializeLargeDataset() {
       console.log('✅ Colección "products" creada exitosamente')
     }
 
-    console.log('📦 Listo para importar datos...')
-    console.log('💡 Usa este script con tu dataset de 15GB')
+    console.log('📦 Listo para generar datos con Faker...')
     console.log('📊 Dashboard: http://localhost:8108/dashboard')
 
   } catch (error) {
@@ -90,28 +88,44 @@ async function importDataInBatches(client, data, batchSize = 1000) {
   console.log(`🎉 Importación completada: ${imported} productos importados`)
 }
 
-async function readDataFromFile(filePath) {
-  console.log(`📖 Leyendo datos desde: ${filePath}`)
+function generateFakeProducts(count) {
+  console.log(`🎲 Generando ${count} productos con Faker...`)
   
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Archivo no encontrado: ${filePath}`)
-  }
-  
-  const fileContent = fs.readFileSync(filePath, 'utf8')
-  const lines = fileContent.split('\n').filter(line => line.trim())
-  
-  console.log(`📊 Encontradas ${lines.length} líneas de datos`)
+  const categories = ['electronics', 'clothing', 'books', 'home', 'sports', 'beauty', 'toys', 'automotive']
+  const brands = ['Apple', 'Samsung', 'Nike', 'Adidas', 'Sony', 'LG', 'Dell', 'HP', 'Canon', 'Nikon', 'Puma', 'Reebok']
   
   const products = []
-  for (let i = 0; i < lines.length; i++) {
-    try {
-      const product = JSON.parse(lines[i])
-      products.push(product)
-    } catch (error) {
-      console.warn(`⚠️  Error parseando línea ${i + 1}:`, error.message)
+  
+  for (let i = 0; i < count; i++) {
+    const category = faker.helpers.arrayElement(categories)
+    const brand = faker.helpers.arrayElement(brands)
+    const price = parseFloat(faker.commerce.price({ min: 10, max: 2000 }))
+    const originalPrice = price + parseFloat(faker.commerce.price({ min: 0, max: 500 }))
+    const discount = Math.random() > 0.7 ? Math.floor(Math.random() * 50) : 0
+    const rating = parseFloat((Math.random() * 2 + 3).toFixed(1)) // 3.0 - 5.0
+    const reviews = Math.floor(Math.random() * 10000) + 10
+    
+    const product = {
+      id: faker.string.uuid(),
+      name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      price: price,
+      originalPrice: originalPrice,
+      discount: discount,
+      category: category,
+      image: `/placeholder.svg?height=300&width=300`,
+      rating: rating,
+      reviews: reviews,
+      stock: Math.floor(Math.random() * 100) + 1,
+      tags: faker.helpers.arrayElements(['premium', 'new', 'trending', 'popular', 'featured', 'limited'], { min: 1, max: 3 }),
+      brand: brand,
+      created_at: Math.floor(Date.now() / 1000) - Math.floor(Math.random() * 365 * 24 * 60 * 60), // Último año
     }
+    
+    products.push(product)
   }
   
+  console.log(`✅ ${products.length} productos generados`)
   return products
 }
 
@@ -121,11 +135,17 @@ if (require.main === module) {
   if (args.length === 0) {
     console.log('🚀 Inicializando Typesense para dataset grande...')
     initializeLargeDataset()
-  } else if (args[0] === 'import' && args[1]) {
-    console.log('📦 Importando dataset...')
+  } else if (args[0] === 'generate' && args[1]) {
+    const count = parseInt(args[1])
+    if (isNaN(count) || count <= 0) {
+      console.error('❌ Por favor especifica un número válido de productos')
+      process.exit(1)
+    }
+    
+    console.log(`📦 Generando ${count} productos con Faker...`)
     const client = new Typesense.Client(typesenseConfig)
-    readDataFromFile(args[1])
-      .then(data => importDataInBatches(client, data))
+    const products = generateFakeProducts(count)
+    importDataInBatches(client, products)
       .catch(error => {
         console.error('❌ Error importando datos:', error.message)
         process.exit(1)
@@ -133,8 +153,13 @@ if (require.main === module) {
   } else {
     console.log('Uso:')
     console.log('  node scripts/seed-large-dataset.js                    # Inicializar colección')
-    console.log('  node scripts/seed-large-dataset.js import <archivo>   # Importar datos')
+    console.log('  node scripts/seed-large-dataset.js generate <número>  # Generar N productos con Faker')
+    console.log('')
+    console.log('Ejemplos:')
+    console.log('  node scripts/seed-large-dataset.js generate 1000      # Generar 1,000 productos')
+    console.log('  node scripts/seed-large-dataset.js generate 10000     # Generar 10,000 productos')
+    console.log('  node scripts/seed-large-dataset.js generate 100000    # Generar 100,000 productos')
   }
 }
 
-module.exports = { initializeLargeDataset, importDataInBatches, readDataFromFile } 
+module.exports = { initializeLargeDataset, importDataInBatches, generateFakeProducts } 
