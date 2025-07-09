@@ -16,16 +16,16 @@ async function exploreDatabase() {
   try {
     const client = new Typesense.Client(typesenseConfig)
     
-    console.log('🔍 Conectando a Typesense...')
+    console.log('Conectando a Typesense...')
     
     const collections = await client.collections().retrieve()
-    console.log('\n📚 Colecciones disponibles:')
+    console.log('\n Colecciones disponibles:')
     collections.forEach(collection => {
       console.log(`  - ${collection.name} (${collection.num_documents} documentos)`)
     })
     
     const productsCollection = await client.collections('products').retrieve()
-    console.log('\n📦 Detalles de la colección "products":')
+    console.log('\n Detalles de la colección "products":')
     console.log(`  - Documentos: ${productsCollection.num_documents}`)
     console.log(`  - Campos: ${productsCollection.fields.length}`)
     console.log(`  - Tamaño: ${(productsCollection.num_documents * 0.001).toFixed(2)} MB (aprox)`)
@@ -36,7 +36,7 @@ async function exploreDatabase() {
       per_page: 5
     })
     
-    console.log('\n📄 Primeros 5 documentos:')
+    console.log('\n Primeros 5 documentos:')
     searchResults.hits.forEach((hit, index) => {
       const doc = hit.document
       console.log(`\n  ${index + 1}. ${doc.name}`)
@@ -51,8 +51,8 @@ async function exploreDatabase() {
       facet_by: 'category',
       per_page: 0
     })
-    
-    console.log('\n🏷️  Estadísticas por categoría:')
+     
+    console.log('\nEstadísticas por categoría:')
     if (categoryStats.facet_counts && categoryStats.facet_counts[0]) {
       categoryStats.facet_counts[0].counts.forEach(count => {
         console.log(`  - ${count.value}: ${count.count} productos`)
@@ -65,17 +65,17 @@ async function exploreDatabase() {
       per_page: 0
     })
     
-    console.log('\n🏭 Estadísticas por marca:')
+    console.log('\nEstadísticas por marca:')
     if (brandStats.facet_counts && brandStats.facet_counts[0]) {
       brandStats.facet_counts[0].counts.forEach(count => {
         console.log(`  - ${count.value}: ${count.count} productos`)
       })
     }
     
-    console.log('\n✅ Exploración completada!')
+    console.log('\nExploración completadaaaaaa')
     
   } catch (error) {
-    console.error('❌ Error explorando la base de datos:', error.message)
+    console.error(' Error explorando la base de datos:', error.message)
     process.exit(1)
   }
 }

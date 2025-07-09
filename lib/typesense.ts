@@ -23,9 +23,9 @@ export async function searchProducts(query: string = '', category: string = '', 
 
     if (category && category !== 'all') {
       searchParameters.filter_by = `category:=${category}`
-      console.log(`🔍 Buscando productos de categoría: ${category}`)
+      console.log(`Buscando productos de categoría: ${category}`)
     } else {
-      console.log('🔍 Buscando todos los productos')
+      console.log('Buscando todos los productos')
     }
 
     const searchResults = await client
@@ -35,11 +35,10 @@ export async function searchProducts(query: string = '', category: string = '', 
 
     const products = searchResults.hits?.map(hit => hit.document as Product) || []
     const total = searchResults.found || 0
-    console.log(`✅ Encontrados ${products.length} productos (total: ${total})`)
+    console.log(`Encontrados ${products.length} productos (total: ${total})`)
     
-    // Mostrar algunos ejemplos para debug
     if (products.length > 0) {
-      console.log('📄 Ejemplos de productos:')
+      console.log('Ejemplos de productos:')
       products.slice(0, 3).forEach((product, index) => {
         console.log(`   ${index + 1}. ${product.name} (${product.category})`)
       })

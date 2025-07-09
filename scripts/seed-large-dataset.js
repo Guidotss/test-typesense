@@ -49,9 +49,6 @@ async function initializeLargeDataset() {
       console.log('✅ Colección "products" creada exitosamente')
     }
 
-    console.log('📦 Listo para generar datos con Faker...')
-    console.log('📊 Dashboard: http://localhost:8108/dashboard')
-
   } catch (error) {
     console.error('❌ Error inicializando Typesense:', error.message)
     process.exit(1)
@@ -154,11 +151,6 @@ if (require.main === module) {
     console.log('Uso:')
     console.log('  node scripts/seed-large-dataset.js                    # Inicializar colección')
     console.log('  node scripts/seed-large-dataset.js generate <número>  # Generar N productos con Faker')
-    console.log('')
-    console.log('Ejemplos:')
-    console.log('  node scripts/seed-large-dataset.js generate 1000      # Generar 1,000 productos')
-    console.log('  node scripts/seed-large-dataset.js generate 10000     # Generar 10,000 productos')
-    console.log('  node scripts/seed-large-dataset.js generate 100000    # Generar 100,000 productos')
   }
 }
 
