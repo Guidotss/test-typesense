@@ -1,0 +1,157 @@
+<svg width="900" height="700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .user { fill: #10b981; stroke: #059669; stroke-width: 2; rx: 8; }
+      .ui { fill: #3b82f6; stroke: #1e40af; stroke-width: 2; rx: 8; }
+      .api { fill: #f59e0b; stroke: #d97706; stroke-width: 2; rx: 8; }
+      .search { fill: #8b5cf6; stroke: #7c3aed; stroke-width: 2; rx: 8; }
+      .database { fill: #ef4444; stroke: #dc2626; stroke-width: 2; rx: 8; }
+      .text { fill: white; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; }
+      .arrow { stroke: #6b7280; stroke-width: 2; marker-end: url(#arrowhead); }
+      .arrowhead { fill: #6b7280; }
+      .label { fill: #6b7280; font-family: Arial, sans-serif; font-size: 10px; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
+  
+  <!-- User Input -->
+  <rect x="50" y="50" width="100" height="50" class="user" />
+  <text x="100" y="75" text-anchor="middle" class="text">Usuario</text>
+  
+  <!-- SearchBar Component -->
+  <rect x="200" y="30" width="100" height="50" class="ui" />
+  <text x="250" y="55" text-anchor="middle" class="text">SearchBar</text>
+  
+  <rect x="200" y="90" width="100" height="50" class="ui" />
+  <text x="250" y="115" text-anchor="middle" class="text">CategoryFilter</text>
+  
+  <!-- Debounce -->
+  <rect x="350" y="60" width="80" height="40" class="ui" />
+  <text x="390" y="80" text-anchor="middle" class="text">Debounce</text>
+  <text x="390" y="95" text-anchor="middle" class="label">300ms</text>
+  
+  <!-- API Route -->
+  <rect x="480" y="50" width="100" height="50" class="api" />
+  <text x="530" y="75" text-anchor="middle" class="text">/api/search</text>
+  
+  <!-- Typesense Client -->
+  <rect x="630" y="50" width="100" height="50" class="search" />
+  <text x="680" y="75" text-anchor="middle" class="text">Typesense</text>
+  <text x="680" y="90" text-anchor="middle" class="label">Client</text>
+  
+  <!-- Typesense Server -->
+  <rect x="780" y="50" width="100" height="50" class="database" />
+  <text x="830" y="75" text-anchor="middle" class="text">Typesense</text>
+  <text x="830" y="90" text-anchor="middle" class="label">Server</text>
+  
+  <!-- Response Flow -->
+  <rect x="780" y="150" width="100" height="50" class="database" />
+  <text x="830" y="175" text-anchor="middle" class="text">Search</text>
+  <text x="830" y="190" text-anchor="middle" class="label">Results</text>
+  
+  <rect x="630" y="150" width="100" height="50" class="search" />
+  <text x="680" y="175" text-anchor="middle" class="text">Processed</text>
+  <text x="680" y="190" text-anchor="middle" class="label">Data</text>
+  
+  <rect x="480" y="150" width="100" height="50" class="api" />
+  <text x="530" y="175" text-anchor="middle" class="text">JSON</text>
+  <text x="530" y="190" text-anchor="middle" class="label">Response</text>
+  
+  <!-- UI Components -->
+  <rect x="350" y="150" width="100" height="50" class="ui" />
+  <text x="400" y="175" text-anchor="middle" class="text">ProductGrid</text>
+  
+  <rect x="200" y="150" width="100" height="50" class="ui" />
+  <text x="250" y="175" text-anchor="middle" class="text">ProductCard</text>
+  
+  <rect x="50" y="150" width="100" height="50" class="user" />
+  <text x="100" y="175" text-anchor="middle" class="text">Rendered</text>
+  <text x="100" y="190" text-anchor="middle" class="label">Products</text>
+  
+  <!-- Arrows - Request Flow -->
+  <line x1="150" y1="75" x2="200" y2="55" class="arrow" />
+  <line x1="150" y1="75" x2="200" y2="115" class="arrow" />
+  <line x1="300" y1="55" x2="350" y2="80" class="arrow" />
+  <line x1="430" y1="80" x2="480" y2="75" class="arrow" />
+  <line x1="580" y1="75" x2="630" y2="75" class="arrow" />
+  <line x1="730" y1="75" x2="780" y2="75" class="arrow" />
+  
+  <!-- Arrows - Response Flow -->
+  <line x1="830" y1="100" x2="830" y2="150" class="arrow" />
+  <line x1="780" y1="175" x2="730" y2="175" class="arrow" />
+  <line x1="630" y1="175" x2="580" y2="175" class="arrow" />
+  <line x1="480" y1="175" x2="430" y2="175" class="arrow" />
+  <line x1="350" y1="175" x2="300" y2="175" class="arrow" />
+  <line x1="200" y1="175" x2="150" y2="175" class="arrow" />
+  
+  <!-- Labels -->
+  <text x="175" y="45" text-anchor="middle" class="label">User Input</text>
+  <text x="425" y="45" text-anchor="middle" class="label">API Call</text>
+  <text x="655" y="45" text-anchor="middle" class="label">Search Query</text>
+  <text x="805" y="45" text-anchor="middle" class="label">Database</text>
+  
+  <text x="805" y="145" text-anchor="middle" class="label">Results</text>
+  <text x="655" y="145" text-anchor="middle" class="label">Process</text>
+  <text x="425" y="145" text-anchor="middle" class="label">Response</text>
+  <text x="175" y="145" text-anchor="middle" class="label">Render</text>
+  
+  <!-- Search Parameters -->
+  <rect x="50" y="250" width="830" height="120" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="8" />
+  <text x="465" y="270" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Parámetros de Búsqueda</text>
+  
+  <rect x="70" y="280" width="120" height="30" fill="#3b82f6" stroke="#1e40af" stroke-width="1" rx="4" />
+  <text x="130" y="300" text-anchor="middle" class="text">query</text>
+  
+  <rect x="210" y="280" width="120" height="30" fill="#3b82f6" stroke="#1e40af" stroke-width="1" rx="4" />
+  <text x="270" y="300" text-anchor="middle" class="text">category</text>
+  
+  <rect x="350" y="280" width="120" height="30" fill="#3b82f6" stroke="#1e40af" stroke-width="1" rx="4" />
+  <text x="410" y="300" text-anchor="middle" class="text">page</text>
+  
+  <rect x="490" y="280" width="120" height="30" fill="#3b82f6" stroke="#1e40af" stroke-width="1" rx="4" />
+  <text x="550" y="300" text-anchor="middle" class="text">per_page</text>
+  
+  <rect x="630" y="280" width="120" height="30" fill="#3b82f6" stroke="#1e40af" stroke-width="1" rx="4" />
+  <text x="690" y="300" text-anchor="middle" class="text">sort_by</text>
+  
+  <rect x="70" y="320" width="120" height="30" fill="#10b981" stroke="#059669" stroke-width="1" rx="4" />
+  <text x="130" y="340" text-anchor="middle" class="text">name</text>
+  
+  <rect x="210" y="320" width="120" height="30" fill="#10b981" stroke="#059669" stroke-width="1" rx="4" />
+  <text x="270" y="340" text-anchor="middle" class="text">description</text>
+  
+  <rect x="350" y="320" width="120" height="30" fill="#10b981" stroke="#059669" stroke-width="1" rx="4" />
+  <text x="410" y="340" text-anchor="middle" class="text">tags</text>
+  
+  <rect x="490" y="320" width="120" height="30" fill="#10b981" stroke="#059669" stroke-width="1" rx="4" />
+  <text x="550" y="340" text-anchor="middle" class="text">rating</text>
+  
+  <rect x="630" y="320" width="120" height="30" fill="#10b981" stroke="#059669" stroke-width="1" rx="4" />
+  <text x="690" y="340" text-anchor="middle" class="text">price</text>
+  
+  <!-- Performance Metrics -->
+  <rect x="50" y="400" width="830" height="120" fill="#fef3c7" stroke="#f59e0b" stroke-width="1" rx="8" />
+  <text x="465" y="420" text-anchor="middle" fill="#92400e" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Métricas de Rendimiento</text>
+  
+  <rect x="70" y="430" width="150" height="30" fill="#f59e0b" stroke="#d97706" stroke-width="1" rx="4" />
+  <text x="145" y="450" text-anchor="middle" class="text">Response Time</text>
+  <text x="145" y="465" text-anchor="middle" class="label">&lt; 100ms</text>
+  
+  <rect x="240" y="430" width="150" height="30" fill="#f59e0b" stroke="#d97706" stroke-width="1" rx="4" />
+  <text x="315" y="450" text-anchor="middle" class="text">Debounce</text>
+  <text x="315" y="465" text-anchor="middle" class="label">300ms</text>
+  
+  <rect x="410" y="430" width="150" height="30" fill="#f59e0b" stroke="#d97706" stroke-width="1" rx="4" />
+  <text x="485" y="450" text-anchor="middle" class="text">Pagination</text>
+  <text x="485" y="465" text-anchor="middle" class="label">20 items</text>
+  
+  <rect x="580" y="430" width="150" height="30" fill="#f59e0b" stroke="#d97706" stroke-width="1" rx="4" />
+  <text x="655" y="450" text-anchor="middle" class="text">Memory Usage</text>
+  <text x="655" y="465" text-anchor="middle" class="label">4-8GB</text>
+  
+  <rect x="750" y="430" width="130" height="30" fill="#f59e0b" stroke="#d97706" stroke-width="1" rx="4" />
+  <text x="815" y="450" text-anchor="middle" class="text">CPU Cores</text>
+  <text x="815" y="465" text-anchor="middle" class="label">2-4 cores</text>
+</svg> 

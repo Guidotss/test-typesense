@@ -15,6 +15,36 @@
 
 ![Arquitectura de Búsqueda](./public/search-arch.svg)
 
+## Flujo de Datos
+
+El siguiente diagrama muestra el flujo completo de datos desde la entrada del usuario hasta la renderización de resultados:
+
+![Flujo de Datos](./public/data-flow.svg)
+
+### Componentes del Flujo:
+
+1. **Usuario** → Ingresa términos de búsqueda o selecciona categorías
+2. **SearchBar/CategoryFilter** → Componentes de UI que capturan la entrada
+3. **Debounce (300ms)** → Optimización para evitar llamadas excesivas a la API
+4. **API Routes** → `/api/search` y `/api/categories` procesan las solicitudes
+5. **Typesense Client** → Cliente que comunica con el servidor de búsqueda
+6. **Typesense Server** → Motor de búsqueda que procesa las consultas
+7. **ProductGrid/ProductCard** → Componentes que renderizan los resultados
+
+### Parámetros de Búsqueda:
+- `query`: Término de búsqueda
+- `category`: Filtro por categoría
+- `page`: Número de página
+- `per_page`: Elementos por página
+- `sort_by`: Criterio de ordenamiento
+
+### Métricas de Rendimiento:
+- **Tiempo de respuesta**: < 100ms
+- **Debounce**: 300ms
+- **Paginación**: 20 elementos por página
+- **Memoria**: 4-8GB
+- **CPU**: 2-4 cores
+
 
 ## Características Principales
 
